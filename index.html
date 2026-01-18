@@ -16,7 +16,6 @@
         overflow: hidden;
     }
 
-    /* --- BARRE DE SOUTIEN AJUSTÉE --- */
     .support-bar {
         position: fixed;
         top: 15px;
@@ -26,7 +25,7 @@
         gap: 15px;
         z-index: 1000;
         background: rgba(255, 255, 255, 0.05);
-        padding: 8px 15px; /* Plus petit pour être discret */
+        padding: 8px 15px;
         border-radius: 40px;
         backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -56,11 +55,10 @@
         transform: scale(1.1);
     }
 
-    /* TAILLE IDENTIQUE POUR TOUTES LES ICÔNES */
     .support-icons img {
-        width: 40px;  /* Largeur fixe */
-        height: 40px; /* Hauteur fixe */
-        object-fit: contain; /* Garde les proportions sans déformer */
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
     }
 
     @media (max-width: 600px) {
@@ -68,7 +66,6 @@
         .support-text { font-size: 11px; }
     }
 
-    /* --- RESTE DU STYLE --- */
     .screen {
         text-align: center;
         width: 100%;
@@ -166,13 +163,13 @@
     <span class="support-text">Me soutenir</span>
     <div class="support-icons">
         <a href="https://www.youtube.com/@Akatsudo" target="_blank">
-            <img src="YouTube-Logo.png" alt="YouTube">
+            <img src="images/YouTube-Logo.png" alt="YouTube">
         </a>
         <a href="https://www.tiktok.com/@akatsudo" target="_blank">
-            <img src="TikTok-Logo.png" alt="TikTok">
+            <img src="images/TikTok-Logo.png" alt="TikTok">
         </a>
         <a href="https://twitch.tv/akatsudosurtwitch" target="_blank">
-            <img src="Twitch-Logo.png" alt="Twitch">
+            <img src="images/Twitch-Logo.png" alt="Twitch">
         </a>
     </div>
 </div>
@@ -192,7 +189,7 @@
             <div id="questionText" class="blue-text" style="font-size: 22px;">
                 Est ce que tu m'aimes et est ce que tu veux sortir avec moi ?
             </div>
-            <img id="catImg" src="chat-rose.png" alt="chat rose">
+            <img id="catImg" src="images/chat-rose.png" alt="chat rose">
         </div>
         <div id="buttonArea">
             <button id="yesBtn" class="btn">Ouiii ❤️</button>
@@ -202,7 +199,7 @@
 
     <div id="finalBox">
         <div class="red-text">Oooh, merci mon cœur ! Je t'aime tellement ! ❤️</div>
-        <img id="finalCat" src="Happy-Cat.gif" alt="gif chat">
+        <img id="finalCat" src="images/Happy-Cat.gif" alt="gif chat">
     </div>
 </div>
 
@@ -219,10 +216,10 @@ const noBtn = document.getElementById("noBtn");
 const questionGroup = document.getElementById("questionGroup");
 const finalCat = document.getElementById("finalCat");
 
-const message = "Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontré !";
+const message = "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontré !";
 
 function playSound(file, loop = false, callback = null) {
-    const sound = new Audio(file);
+    const sound = new Audio("audio/" + file);  // ✅ chemin correct
     sound.loop = loop;
     if (callback) { sound.onended = callback; }
     sound.play().catch(() => {}); 
