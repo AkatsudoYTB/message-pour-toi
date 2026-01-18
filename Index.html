@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Message pour toi</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(#1b1b1b, #0b0b0b);
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    /* --- BARRE DE SOUTIEN AJUSTÉE --- */
+    .support-bar {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 8px 15px; /* Plus petit pour être discret */
+        border-radius: 40px;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .support-text {
+        color: white;
+        font-size: 14px; 
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-shadow: 0 0 8px #fff, 0 0 15px #fff;
+    }
+
+    .support-icons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .support-icons a {
+        display: flex;
+        align-items: center;
+        transition: transform 0.2s ease;
+    }
+
+    .support-icons a:hover {
+        transform: scale(1.1);
+    }
+
+    /* TAILLE IDENTIQUE POUR TOUTES LES ICÔNES */
+    .support-icons img {
+        width: 40px;  /* Largeur fixe */
+        height: 40px; /* Hauteur fixe */
+        object-fit: contain; /* Garde les proportions sans déformer */
+    }
+
+    @media (max-width: 600px) {
+        .support-icons img { width: 32px; height: 32px; }
+        .support-text { font-size: 11px; }
+    }
+
+    /* --- RESTE DU STYLE --- */
+    .screen {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .blue-text {
+        color: #7ec8ff;
+        text-shadow: 0 0 6px #fff;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    #typingText {
+        max-width: 600px;
+        line-height: 1.4;
+        display: none;
+    }
+
+    .btn {
+        padding: 14px 28px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        box-shadow: 0 0 8px rgba(255,255,255,0.2);
+        background: #3498db;
+    }
+
+    .suite-container {
+        height: 50px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+    }
+
+    #btnSuite, #btnSuite2 { position: absolute; }
+    #text2, #btnSuite2, #questionBox, #finalBox { display: none; }
+    #cursor { animation: blink 1s infinite; }
+    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+    #questionBox {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #questionGroup {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        white-space: nowrap;
+        position: absolute;
+        transform: translateY(-80px); 
+        transition: transform 0.3s ease;
+        z-index: 5;
+    }
+
+    #catImg { width: 100px; }
+
+    #buttonArea {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        transform: translateY(60px);
+    }
+
+    #yesBtn { background: #2ecc71; z-index: 10; transition: transform 0.3s ease; }
+    #noBtn { background: #e74c3c; position: absolute; transition: transform 0.3s ease; }
+
+    #finalBox { flex-direction: column; align-items: center; }
+    #finalBox img { margin-top: 20px; width: 260px; display: none; }
+    .red-text { color: #ff4b4b; text-shadow: 0 0 6px #fff; font-size: 28px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div class="support-bar">
+    <span class="support-text">Me soutenir</span>
+    <div class="support-icons">
+        <a href="https://www.youtube.com/@Akatsudo" target="_blank">
+            <img src="YouTube-Logo.png" alt="YouTube">
+        </a>
+        <a href="https://www.tiktok.com/@akatsudo" target="_blank">
+            <img src="TikTok-Logo.png" alt="TikTok">
+        </a>
+        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank">
+            <img src="Twitch-Logo.png" alt="Twitch">
+        </a>
+    </div>
+</div>
+
+<div class="screen">
+    <div id="startText" class="blue-text">Salut, j'avais une question à te poser...</div>
+    <div id="text2" class="blue-text">Je sais pas comment te le dire, mais...</div>
+    <div id="typingText" class="blue-text"><span id="typed"></span><span id="cursor">|</span></div>
+
+    <div class="suite-container" id="suiteWrap">
+        <button id="btnSuite" class="btn">Suite</button>
+        <button id="btnSuite2" class="btn">Suite</button>
+    </div>
+
+    <div id="questionBox">
+        <div id="questionGroup">
+            <div id="questionText" class="blue-text" style="font-size: 22px;">
+                Est ce que tu m'aimes et est ce que tu veux sortir avec moi ?
+            </div>
+            <img id="catImg" src="chat-rose.png" alt="chat rose">
+        </div>
+        <div id="buttonArea">
+            <button id="yesBtn" class="btn">Ouiii ❤️</button>
+            <button id="noBtn" class="btn">Non merci.</button>
+        </div>
+    </div>
+
+    <div id="finalBox">
+        <div class="red-text">Oooh, merci pour amour ! Je t'aime tellement ! ❤️</div>
+        <img id="finalCat" src="Happy-Cat.gif" alt="gif chat">
+    </div>
+</div>
+
+<script>
+let scale = 1;
+const DISTANCE_BOUTON_ROUGE = 25; 
+
+const btnSuite = document.getElementById("btnSuite");
+const btnSuite2 = document.getElementById("btnSuite2");
+const suiteWrap = document.getElementById("suiteWrap");
+const typed = document.getElementById("typed");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const questionGroup = document.getElementById("questionGroup");
+const finalCat = document.getElementById("finalCat");
+
+const message = "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontré !";
+
+function playSound(file, loop = false, callback = null) {
+    const sound = new Audio(file);
+    sound.loop = loop;
+    if (callback) { sound.onended = callback; }
+    sound.play().catch(() => {}); 
+    return sound;
+}
+
+function updatePositions() {
+    const yesWidth = yesBtn.offsetWidth * scale;
+    const yesHeight = yesBtn.offsetHeight * scale;
+    const offsetRed = (yesWidth / 2) + DISTANCE_BOUTON_ROUGE + (noBtn.offsetWidth / 2);
+    noBtn.style.transform = `translateX(${offsetRed}px)`;
+    const offsetUp = 80 + (yesHeight / 2);
+    questionGroup.style.transform = `translateY(-${offsetUp}px)`;
+}
+
+btnSuite.onclick = () => {
+    playSound("Mouse-Click.mp3");
+    document.getElementById("startText").style.display = "none";
+    btnSuite.style.display = "none";
+    document.getElementById("text2").style.display = "block";
+    btnSuite2.style.display = "block";
+    btnSuite2.style.opacity = 0;
+    fadeIn(btnSuite2, 1000);
+};
+
+btnSuite2.onclick = () => {
+    playSound("Mouse-Click.mp3");
+    document.getElementById("text2").style.display = "none";
+    btnSuite2.style.display = "none";
+    suiteWrap.style.display = "none";
+    document.getElementById("typingText").style.display = "block";
+    typeWriter(message);
+};
+
+function fadeIn(element, duration) {
+    let opacity = 0;
+    const interval = 50;
+    const timer = setInterval(() => {
+        opacity += (interval / duration);
+        element.style.opacity = opacity;
+        if (opacity >= 1) clearInterval(timer);
+    }, interval);
+}
+
+function typeWriter(text) {
+    let i = 0;
+    function write() {
+        if (i < text.length) {
+            typed.innerHTML += text[i];
+            playSound("key.mp3");
+            let speed = (text[i] === "." || text[i] === "!") ? 250 : 80;
+            i++;
+            setTimeout(write, speed);
+        } else {
+            document.getElementById("cursor").style.display = "none";
+            createFinalSuiteButton();
+        }
+    }
+    write();
+}
+
+function createFinalSuiteButton() {
+    suiteWrap.style.display = "flex";
+    const btn = document.createElement("button");
+    btn.innerText = "Suite";
+    btn.className = "btn";
+    btn.style.position = "absolute";
+    suiteWrap.appendChild(btn);
+    btn.onclick = () => {
+        playSound("Mouse-Click.mp3");
+        suiteWrap.style.display = "none";
+        document.getElementById("typingText").style.display = "none";
+        document.getElementById("questionBox").style.display = "flex";
+        updatePositions();
+    };
+}
+
+noBtn.onclick = () => {
+    playSound("mauvaise-reponse.mp3");
+    scale *= 1.2; 
+    yesBtn.style.transform = `scale(${scale})`;
+    updatePositions();
+};
+
+yesBtn.onclick = () => {
+    playSound("bonne-reponse.mp3");
+    setTimeout(() => {
+        playSound("kisses.mp3");
+        setTimeout(() => {
+            playSound("Happy-Cat-Music.mp3", true);
+            finalCat.style.display = "block";
+        }, 1500); 
+    }, 1000);
+    document.getElementById("questionBox").style.display = "none";
+    document.getElementById("finalBox").style.display = "flex";
+};
+</script>
+</body>
+</html>
