@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TC45YCDBFX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -10,6 +9,13 @@
   gtag('js', new Date());
 
   gtag('config', 'G-TC45YCDBFX');
+
+  // Fonction pour envoyer les clics à Google Analytics
+  function trackClick(buttonName) {
+    gtag('event', 'click_bouton', {
+      'nom_bouton': buttonName
+    });
+  }
 </script>
 
 <link rel="icon" type="image/png" href="images/Coeur-Apple.png">
@@ -172,13 +178,13 @@
 <div class="support-bar">
     <span class="support-text">Me soutenir</span>
     <div class="support-icons">
-        <a href="https://www.youtube.com/@Akatsudo" target="_blank">
+        <a href="https://www.youtube.com/@Akatsudo" target="_blank" onclick="trackClick('YouTube')">
             <img src="images/YouTube-Logo.png" alt="YouTube">
         </a>
-        <a href="https://www.tiktok.com/@akatsudo" target="_blank">
+        <a href="https://www.tiktok.com/@akatsudo" target="_blank" onclick="trackClick('TikTok')">
             <img src="images/TikTok-Logo.png" alt="TikTok">
         </a>
-        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank">
+        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank" onclick="trackClick('Twitch')">
             <img src="images/Twitch-Logo.png" alt="Twitch">
         </a>
     </div>
@@ -226,10 +232,10 @@ const noBtn = document.getElementById("noBtn");
 const questionGroup = document.getElementById("questionGroup");
 const finalCat = document.getElementById("finalCat");
 
-const message = "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontré !";
+const message = "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontrée !";
 
 function playSound(file, loop = false, callback = null) {
-    const sound = new Audio("audio/" + file);  // ✅ chemin correct
+    const sound = new Audio("audio/" + file); 
     sound.loop = loop;
     if (callback) { sound.onended = callback; }
     sound.play().catch(() => {}); 
@@ -246,6 +252,7 @@ function updatePositions() {
 }
 
 btnSuite.onclick = () => {
+    trackClick('Suite 1');
     playSound("Mouse-Click.mp3");
     document.getElementById("startText").style.display = "none";
     btnSuite.style.display = "none";
@@ -256,6 +263,7 @@ btnSuite.onclick = () => {
 };
 
 btnSuite2.onclick = () => {
+    trackClick('Suite 2');
     playSound("Mouse-Click.mp3");
     document.getElementById("text2").style.display = "none";
     btnSuite2.style.display = "none";
@@ -299,6 +307,7 @@ function createFinalSuiteButton() {
     btn.style.position = "absolute";
     suiteWrap.appendChild(btn);
     btn.onclick = () => {
+        trackClick('Suite Finale');
         playSound("Mouse-Click.mp3");
         suiteWrap.style.display = "none";
         document.getElementById("typingText").style.display = "none";
@@ -308,6 +317,7 @@ function createFinalSuiteButton() {
 }
 
 noBtn.onclick = () => {
+    trackClick('Bouton NON');
     playSound("mauvaise-reponse.mp3");
     scale *= 1.2; 
     yesBtn.style.transform = `scale(${scale})`;
@@ -315,6 +325,7 @@ noBtn.onclick = () => {
 };
 
 yesBtn.onclick = () => {
+    trackClick('Bouton OUI');
     playSound("bonne-reponse.mp3");
     setTimeout(() => {
         playSound("kisses.mp3");
