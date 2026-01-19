@@ -33,6 +33,7 @@
         overflow: hidden;
     }
 
+    /* --- BARRE DE SOUTIEN --- */
     .support-bar {
         position: fixed;
         top: 15px;
@@ -83,6 +84,7 @@
         .support-text { font-size: 11px; }
     }
 
+    /* --- CONTENU --- */
     .screen {
         text-align: center;
         width: 100%;
@@ -175,6 +177,7 @@
 </style>
 </head>
 <body>
+
 <div class="support-bar">
     <span class="support-text">Me soutenir</span>
     <div class="support-icons">
@@ -232,6 +235,10 @@ const noBtn = document.getElementById("noBtn");
 const questionGroup = document.getElementById("questionGroup");
 const finalCat = document.getElementById("finalCat");
 
+// Pré-chargement du son de clavier pour éviter les lenteurs sur iPad
+const keySound = new Audio("audio/key.mp3");
+keySound.preload = "auto";
+
 const message = "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontrée !";
 
 function playSound(file, loop = false, callback = null) {
@@ -287,8 +294,12 @@ function typeWriter(text) {
     function write() {
         if (i < text.length) {
             typed.innerHTML += text[i];
-            playSound("key.mp3");
-            let speed = (text[i] === "." || text[i] === "!") ? 250 : 80;
+            
+            // Rejoue le même son pré-chargé (plus rapide sur iPad)
+            keySound.currentTime = 0;
+            keySound.play().catch(() => {});
+
+            let speed = (text[i] === "." || text[i] === "!") ? 200 : 70;
             i++;
             setTimeout(write, speed);
         } else {
