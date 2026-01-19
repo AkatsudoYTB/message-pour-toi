@@ -23,18 +23,27 @@
         overflow: hidden; touch-action: manipulation;
     }
 
-    /* --- BARRE DE SOUTIEN --- */
+    /* --- BARRE DE SOUTIEN AVEC EFFET NÉON --- */
     .support-bar {
         position: fixed; top: 15px; right: 15px;
         z-index: 2000;
         background: rgba(255, 255, 255, 0.08); 
-        height: 50px; padding: 0 15px;
+        height: 50px; padding: 0 20px;
         border-radius: 30px; backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex; align-items: center;
+        display: flex; align-items: center; gap: 15px;
     }
-    .support-icons { display: flex; align-items: center; gap: 15px; }
-    .support-icons img { height: 30px; width: auto; display: block; }
+    .support-text {
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        white-space: nowrap;
+        /* Effet Néon Blanc */
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
+    }
+    .support-icons { display: flex; align-items: center; gap: 12px; }
+    .support-icons img { height: 24px; width: auto; display: block; transition: transform 0.2s; }
+    .support-icons img:hover { transform: scale(1.1); }
 
     .lang-picker {
         position: fixed; top: 15px; left: 15px;
@@ -81,7 +90,7 @@
         transition: transform 0.4s ease-out;
         position: absolute;
         top: 50%;
-        transform: translateY(-160px); /* Position initiale plus haute pour plus d'espace */
+        transform: translateY(-140px);
     }
     
     #catImg { width: 80px; height: auto; }
@@ -107,8 +116,9 @@
 
     @media (min-width: 768px) {
         .blue-text, .red-text { font-size: 28px; }
-        #typingText { max-width: 650px; }
+        #typingText { max-width: 600px; }
         #catImg { width: 100px; }
+        .support-text { font-size: 16px; }
     }
 </style>
 </head>
@@ -126,10 +136,11 @@
 </div>
 
 <div class="support-bar">
+    <div class="support-text">Me soutenir</div>
     <div class="support-icons">
-        <a href="https://youtube.com/@Akatsudo" target="_blank"><img src="images/YouTube-Logo.png"></a>
-        <a href="https://tiktok.com/@akatsudo" target="_blank"><img src="images/TikTok-Logo.png"></a>
-        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank"><img src="images/Twitch-Logo.png"></a>
+        <a href="https://youtube.com/@Akatsudo" target="_blank"><img src="images/YouTube-Logo.png" alt="YouTube"></a>
+        <a href="https://tiktok.com/@akatsudo" target="_blank"><img src="images/TikTok-Logo.png" alt="TikTok"></a>
+        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank"><img src="images/Twitch-Logo.png" alt="Twitch"></a>
     </div>
 </div>
 
@@ -162,14 +173,14 @@
 
 <script>
 const translations = {
-    fr: { start: "Salut, j'avais une question à te poser...", text2: "Je sais pas comment te le dire, mais...", msg: "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontrée !", question: "Est ce que tu m'aimes et est ce que tu veux sortir avec moi ?", yes: "Ouiii ❤️", no: "Non merci.", final: "Oooh, merci mon cœur ! Je t'aime tellement ! ❤️", suite: "Suite" },
-    en: { start: "Hi, I had a question to ask you...", text2: "I don't know how to tell you, but...", msg: "...I... I... I love you... No... I don't love you... I adore you! You are the most beautiful person I've ever met!", question: "Do you love me and do you want to go out with me?", yes: "Yesss ❤️", no: "No thanks.", final: "Oooh, thank you sweetheart! I love you so much! ❤️", suite: "Next" },
-    es: { start: "Hola, tenía una pregunta para ti...", text2: "No sé cómo decírtelo, pero...", msg: "...Yo... Yo... Te quiero... No... ¡No te quiero... Te adoro! ¡Eres la persona más bella que he conocido!", question: "¿Me amas y quieres salir conmigo?", yes: "Siii ❤️", no: "No, gracias.", final: "¡Oooh, gracias mi amor! ¡Te quiero mucho! ❤️", suite: "Siguiente" },
-    de: { start: "Hallo, ich wollte dir eine Frage stellen...", text2: "Ich weiß nicht, wie ich es sagen soll, aber...", msg: "...Ich... Ich... Ich liebe dich... Nein... Ich liebe dich nicht... Ich bete dich an! Du bist der schönste Mensch, den ich je getroffen habe!", question: "Liebst du mich und willst du mit mir gehen?", yes: "Jaaa ❤️", no: "Nein danke.", final: "Oooh, danke mein Schatz! Ich liebe dich so sehr! ❤️", suite: "Weiter" },
-    it: { start: "Ciao, volevo farti una domanda...", text2: "Non so come dirtelo, ma...", msg: "...Io... Io... Ti amo... No... Non ti amo... Ti adoro! Sei la persona più bella che abbia mai incontrato!", question: "Mi ami e vuoi uscire con me?", yes: "Siii ❤️", no: "No, grazie.", final: "Oooh, grazie tesoro mio! Ti amo tanto! ❤️", suite: "Avanti" },
-    pt: { start: "Olá, eu tenho uma pergunta para você...", text2: "Eu não sei como te dizer isso, mas...", msg: "...Eu... Eu... Eu te amo... No... Eu não te amo... Eu te adoro! Você é a persona mais linda que eu já conheci!", question: "Você me ama e quer namorar comigo?", yes: "Simmm ❤️", no: "Não, obrigado.", final: "Oooh, obrigado meu amor! Eu te amo tanto! ❤️", suite: "Próximo" },
-    nl: { start: "Hoi, ik wilde je een vraag stellen...", text2: "Ik weet niet hoe ik het moet zeggen, mais...", msg: "...Ik... Ik... Ik hou van je... Nee... Ik hou niet van je... Ik aanbid je! Je bent de mooiste persoon die ik ooit heb ontmoet!", question: "Hou je van me en wil je met me uitgaan?", yes: "Jaaa ❤️", no: "Nee bedankt.", final: "Oooh, bedankt lieverd! Ich hou zoveel van je! ❤️", suite: "Volgende" },
-    jp: { start: "ねえ、ちょっと聞きたいことがあるんだけど…", text2: "どう言えばいいかわからないんだけど、実は…", msg: "…好き…ううん、大好き！…いや、愛してる！君は僕が出会った中で一番素敵な人だよ！", question: "僕のこと好き？付き合ってくれる？", yes: "はい ❤️", no: "ごめんなさい", final: "わあ、ありがとう！本当に愛してるよ！ ❤️", suite: "次へ" }
+    fr: { start: "Salut, j'avais une question à te poser...", text2: "Je sais pas comment te le dire, mais...", msg: "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontrée !", question: "Est ce que tu m'aimes et est ce que tu veux sortir avec moi ?", yes: "Ouiii ❤️", no: "Non merci.", final: "Oooh, merci mon cœur ! Je t'aime tellement ! ❤️", suite: "Suite", support: "Me soutenir" },
+    en: { start: "Hi, I had a question to ask you...", text2: "I don't know how to tell you, but...", msg: "...I... I... I love you... No... I don't love you... I adore you! You are the most beautiful person I've ever met!", question: "Do you love me and do you want to go out with me?", yes: "Yesss ❤️", no: "No thanks.", final: "Oooh, thank you sweetheart! I love you so much! ❤️", suite: "Next", support: "Support me" },
+    es: { start: "Hola, tenía una pregunta para ti...", text2: "No sé cómo decírtelo, pero...", msg: "...Yo... Yo... Te quiero... No... ¡No te quiero... Te adoro! ¡Eres la persona más bella que he conocido!", question: "¿Me amas y quieres salir conmigo?", yes: "Siii ❤️", no: "No, gracias.", final: "¡Oooh, gracias mi amor! ¡Te quiero mucho! ❤️", suite: "Siguiente", support: "Apóyame" },
+    de: { start: "Hallo, ich wollte dir eine Frage stellen...", text2: "Ich weiß nicht, wie ich es sagen soll, aber...", msg: "...Ich... Ich... Ich liebe dich... Nein... Ich liebe dich nicht... Ich bete dich an! Du bist der schönste Mensch, den ich je getroffen habe!", question: "Liebst du mich und willst du mit mir gehen?", yes: "Jaaa ❤️", no: "Nein danke.", final: "Oooh, danke mein Schatz! Ich liebe dich so sehr! ❤️", suite: "Weiter", support: "Unterstütze mich" },
+    it: { start: "Ciao, volevo farti una domanda...", text2: "Non so come dirtelo, ma...", msg: "...Io... Io... Ti amo... No... Non ti amo... Ti adoro! Sei la persona più bella che abbia mai incontrato!", question: "Mi ami e vuoi uscire con me?", yes: "Siii ❤️", no: "No, grazie.", final: "Oooh, grazie tesoro mio! Ti amo tanto! ❤️", suite: "Avanti", support: "Sostienimi" },
+    pt: { start: "Olá, eu tenho uma pergunta para você...", text2: "Eu não sei como te dizer isso, mais...", msg: "...Eu... Eu... Eu te amo... No... Eu não te amo... Eu te adoro! Você é a pessoa mais linda que eu já conheci!", question: "Você me ama e quer namorar comigo?", yes: "Simmm ❤️", no: "Não, obrigado.", final: "Oooh, obrigado meu amor! Eu te amo tanto! ❤️", suite: "Próximo", support: "Apoie-me" },
+    nl: { start: "Hoi, ik wilde je een question stellen...", text2: "Ik weet niet hoe ik het moet zeggen, mais...", msg: "...Ik... Ik... Ik hou van je... Nee... Ik hou niet van je... Ik aanbid je! Je bent de mooiste persoon die ik ooit heb ontmoet!", question: "Hou je van me en wil je met me uitgaan?", yes: "Jaaa ❤️", no: "Nee bedankt.", final: "Oooh, bedankt lieverd! Ich hou zoveel van je! ❤️", suite: "Volgende", support: "Steun mij" },
+    jp: { start: "ねえ、ちょっと聞きたいことがあるんだけど…", text2: "どう言えばいいかわからないんだけど、実は…", msg: "…好き…ううん、大好き！…いや、愛してる！君は僕が出会った中で一番素敵な人だよ！", question: "僕のこと好き？付き合ってくれる？", yes: "はい ❤️", no: "ごめんなさい", final: "わあ、ありがとう！本当に愛してるよ！ ❤️", suite: "次へ", support: "応援する" }
 };
 
 let currentLang = 'fr';
@@ -200,6 +211,7 @@ function changeLang(lang) {
     document.getElementById("yesBtn").innerText = t.yes;
     document.getElementById("noBtn").innerText = t.no;
     document.querySelector(".red-text").innerText = t.final;
+    document.querySelector(".support-text").innerText = t.support;
     btnSuite.innerText = t.suite;
     btnSuite2.innerText = t.suite;
     currentMessage = t.msg;
@@ -208,15 +220,13 @@ function changeLang(lang) {
 function updatePositions() {
     const startOffsetH = -75;
     const currentGreenH = Math.min(0, startOffsetH + (clickCount * 9.5)); 
-
     const marginButtons = 50;
     const currentRedH = currentGreenH + (yesBtn.offsetWidth * scale / 2) + marginButtons + (noBtn.offsetWidth / 2);
 
     yesBtn.style.transform = `translateX(${currentGreenH}px) scale(${scale})`;
     noBtn.style.transform = `translateX(${currentRedH}px)`;
 
-    // --- CALCUL DE L'ESPACE PLUS GRAND ---
-    const bigMargin = 85; // Augmenté pour laisser plus de place
+    const bigMargin = 140; 
     const greenHalfHeight = (yesBtn.offsetHeight * scale) / 2;
     const totalMoveUp = greenHalfHeight + bigMargin; 
     
