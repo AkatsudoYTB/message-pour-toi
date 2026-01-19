@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TC45YCDBFX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-TC45YCDBFX');
-
-  function trackClick(buttonName) {
-    gtag('event', 'click_bouton', { 'nom_bouton': buttonName });
-  }
 </script>
 
 <link rel="icon" type="image/png" href="images/Coeur-Apple.png">
@@ -22,84 +20,116 @@
         background: linear-gradient(#1b1b1b, #0b0b0b);
         font-family: Arial, sans-serif;
         display: flex; justify-content: center; align-items: center;
-        overflow: hidden;
-    }
-
-    /* --- SÉLECTEUR DE LANGUES AVEC IMAGES --- */
-    .lang-picker {
-        position: fixed; top: 15px; left: 15px;
-        z-index: 1001; display: flex; gap: 10px; flex-wrap: wrap; max-width: 250px;
-    }
-    .lang-picker img {
-        width: 35px; /* Taille des drapeaux */
-        height: auto;
-        cursor: pointer;
-        border-radius: 4px;
-        border: 2px solid transparent;
-        transition: 0.3s;
-        filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-    }
-    .lang-picker img:hover {
-        transform: scale(1.2);
-        border-color: #7ec8ff;
+        overflow: hidden; touch-action: manipulation;
     }
 
     /* --- BARRE DE SOUTIEN --- */
     .support-bar {
         position: fixed; top: 15px; right: 15px;
-        display: flex; align-items: center; gap: 15px; z-index: 1000;
-        background: rgba(255, 255, 255, 0.05); padding: 8px 15px;
-        border-radius: 40px; backdrop-filter: blur(8px);
+        z-index: 2000;
+        background: rgba(255, 255, 255, 0.08); 
+        height: 50px; padding: 0 15px;
+        border-radius: 30px; backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex; align-items: center;
     }
-    .support-text {
-        color: white; font-size: 14px; font-weight: bold;
-        text-transform: uppercase; text-shadow: 0 0 8px #fff;
-    }
-    .support-icons { display: flex; gap: 15px; }
-    .support-icons img { width: 40px; height: 40px; object-fit: contain; }
+    .support-icons { display: flex; align-items: center; gap: 15px; }
+    .support-icons img { height: 30px; width: auto; display: block; }
 
-    /* --- CONTENU --- */
+    .lang-picker {
+        position: fixed; top: 15px; left: 15px;
+        z-index: 2001; display: flex; gap: 8px; flex-wrap: wrap; max-width: 160px;
+    }
+    .lang-picker img { width: 30px; height: auto; cursor: pointer; border-radius: 4px; }
+
     .screen { text-align: center; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .blue-text { color: #7ec8ff; text-shadow: 0 0 6px #fff; font-size: 28px; font-weight: bold; }
-    #typingText { max-width: 600px; line-height: 1.4; display: none; }
-    .btn { padding: 14px 28px; border: none; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; color: white; background: #3498db; }
+    
+    .blue-text { 
+        color: #7ec8ff; 
+        text-shadow: 0 0 6px #fff; 
+        font-size: 22px; 
+        font-weight: bold; 
+    }
+    
+    #typingText { 
+        width: 80%; 
+        max-width: 500px; 
+        line-height: 1.4; 
+        display: none; 
+        margin: 0 auto;
+    }
+    
+    .btn { padding: 12px 24px; border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: bold; color: white; background: #3498db; }
+    
     .suite-container { height: 50px; margin-top: 20px; display: flex; justify-content: center; width: 100%; position: relative; }
     #btnSuite, #btnSuite2 { position: absolute; }
     #text2, #btnSuite2, #questionBox, #finalBox { display: none; }
     #cursor { animation: blink 1s infinite; }
     @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 
-    #questionBox { position: relative; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; }
-    #questionGroup { display: flex; align-items: center; justify-content: center; gap: 15px; position: absolute; transform: translateY(-80px); transition: transform 0.3s ease; }
-    #catImg { width: 100px; }
-    #buttonArea { position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; transform: translateY(60px); }
-    #yesBtn { background: #2ecc71; z-index: 10; }
-    #noBtn { background: #e74c3c; position: absolute; }
-    #finalBox { flex-direction: column; align-items: center; }
-    #finalBox img { margin-top: 20px; width: 260px; display: none; }
-    .red-text { color: #ff4b4b; text-shadow: 0 0 6px #fff; font-size: 28px; font-weight: bold; }
+    /* --- ZONE DE QUESTION --- */
+    #questionBox { 
+        width: 100%; height: 100%; 
+        display: none; flex-direction: column; 
+        align-items: center; justify-content: center;
+        position: relative;
+    }
+    
+    #questionGroup { 
+        display: flex; flex-direction: row; align-items: center; justify-content: center; 
+        gap: 15px; z-index: 100;
+        transition: transform 0.4s ease-out;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-160px); /* Position initiale plus haute pour plus d'espace */
+    }
+    
+    #catImg { width: 80px; height: auto; }
+
+    #buttonArea {
+        display: flex; justify-content: center; align-items: center;
+        width: 100%; position: absolute; top: 50%;
+    }
+
+    #yesBtn { 
+        background: #2ecc71; z-index: 10; 
+        transition: transform 0.4s ease-out; 
+        transform-origin: center; position: absolute;
+    }
+    #noBtn { 
+        background: #e74c3c; position: absolute; 
+        transition: transform 0.4s ease-out; z-index: 50;
+    }
+    
+    #finalBox { flex-direction: column; align-items: center; width: 100%; }
+    #finalBox img { margin-top: 15px; width: 220px; display: none; }
+    .red-text { color: #ff4b4b; text-shadow: 0 0 6px #fff; font-size: 22px; font-weight: bold; }
+
+    @media (min-width: 768px) {
+        .blue-text, .red-text { font-size: 28px; }
+        #typingText { max-width: 650px; }
+        #catImg { width: 100px; }
+    }
 </style>
 </head>
 <body>
 
 <div class="lang-picker">
-    <img src="images/France.png" onclick="changeLang('fr')" alt="Français" title="Français">
-    <img src="images/Royaume-Uni.png" onclick="changeLang('en')" alt="English" title="English">
-    <img src="images/Espagne.png" onclick="changeLang('es')" alt="Español" title="Español">
-    <img src="images/Allemagne.png" onclick="changeLang('de')" alt="Deutsch" title="Deutsch">
-    <img src="images/Italie.png" onclick="changeLang('it')" alt="Italiano" title="Italiano">
-    <img src="images/Portugal.png" onclick="changeLang('pt')" alt="Português" title="Português">
-    <img src="images/Pays-Bas.png" onclick="changeLang('nl')" alt="Nederlands" title="Nederlands">
-    <img src="images/Japon.png" onclick="changeLang('jp')" alt="日本語" title="日本語">
+    <img src="images/France.png" onclick="changeLang('fr')">
+    <img src="images/Royaume-Uni.png" onclick="changeLang('en')">
+    <img src="images/Espagne.png" onclick="changeLang('es')">
+    <img src="images/Allemagne.png" onclick="changeLang('de')">
+    <img src="images/Italie.png" onclick="changeLang('it')">
+    <img src="images/Portugal.png" onclick="changeLang('pt')">
+    <img src="images/Pays-Bas.png" onclick="changeLang('nl')">
+    <img src="images/Japon.png" onclick="changeLang('jp')">
 </div>
 
 <div class="support-bar">
-    <span class="support-text">Me soutenir</span>
     <div class="support-icons">
-        <a href="https://youtube.com/@Akatsudo" target="_blank" onclick="trackClick('YouTube')"><img src="images/YouTube-Logo.png"></a>
-        <a href="https://tiktok.com/@akatsudo" target="_blank" onclick="trackClick('TikTok')"><img src="images/TikTok-Logo.png"></a>
-        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank" onclick="trackClick('Twitch')"><img src="images/Twitch-Logo.png"></a>
+        <a href="https://youtube.com/@Akatsudo" target="_blank"><img src="images/YouTube-Logo.png"></a>
+        <a href="https://tiktok.com/@akatsudo" target="_blank"><img src="images/TikTok-Logo.png"></a>
+        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank"><img src="images/Twitch-Logo.png"></a>
     </div>
 </div>
 
@@ -107,13 +137,15 @@
     <div id="startText" class="blue-text">Salut, j'avais une question à te poser...</div>
     <div id="text2" class="blue-text">Je sais pas comment te le dire, mais...</div>
     <div id="typingText" class="blue-text"><span id="typed"></span><span id="cursor">|</span></div>
+    
     <div class="suite-container" id="suiteWrap">
         <button id="btnSuite" class="btn">Suite</button>
         <button id="btnSuite2" class="btn">Suite</button>
     </div>
+
     <div id="questionBox">
         <div id="questionGroup">
-            <div id="questionText" class="blue-text" style="font-size: 22px;">Est ce que tu m'aimes et est ce que tu veux sortir avec moi ?</div>
+            <div id="questionText" class="blue-text" style="font-size: 18px; max-width: 350px;">Est ce que tu m'aimes et est ce que tu veux sortir avec moi ?</div>
             <img id="catImg" src="images/chat-rose.png">
         </div>
         <div id="buttonArea">
@@ -121,6 +153,7 @@
             <button id="noBtn" class="btn">Non merci.</button>
         </div>
     </div>
+
     <div id="finalBox">
         <div class="red-text">Oooh, merci mon cœur ! Je t'aime tellement ! ❤️</div>
         <img id="finalCat" src="images/Happy-Cat.gif">
@@ -134,15 +167,15 @@ const translations = {
     es: { start: "Hola, tenía una pregunta para ti...", text2: "No sé cómo decírtelo, pero...", msg: "...Yo... Yo... Te quiero... No... ¡No te quiero... Te adoro! ¡Eres la persona más bella que he conocido!", question: "¿Me amas y quieres salir conmigo?", yes: "Siii ❤️", no: "No, gracias.", final: "¡Oooh, gracias mi amor! ¡Te quiero mucho! ❤️", suite: "Siguiente" },
     de: { start: "Hallo, ich wollte dir eine Frage stellen...", text2: "Ich weiß nicht, wie ich es sagen soll, aber...", msg: "...Ich... Ich... Ich liebe dich... Nein... Ich liebe dich nicht... Ich bete dich an! Du bist der schönste Mensch, den ich je getroffen habe!", question: "Liebst du mich und willst du mit mir gehen?", yes: "Jaaa ❤️", no: "Nein danke.", final: "Oooh, danke mein Schatz! Ich liebe dich so sehr! ❤️", suite: "Weiter" },
     it: { start: "Ciao, volevo farti una domanda...", text2: "Non so come dirtelo, ma...", msg: "...Io... Io... Ti amo... No... Non ti amo... Ti adoro! Sei la persona più bella che abbia mai incontrato!", question: "Mi ami e vuoi uscire con me?", yes: "Siii ❤️", no: "No, grazie.", final: "Oooh, grazie tesoro mio! Ti amo tanto! ❤️", suite: "Avanti" },
-    pt: { start: "Olá, eu tenho uma pergunta para você...", text2: "Eu não sei como te dizer isso, mas...", msg: "...Eu... Eu... Eu te amo... Não... Eu não te amo... Eu te adoro! Você é a pessoa mais linda que eu já conheci!", question: "Você me ama e quer namorar comigo?", yes: "Simmm ❤️", no: "Não, obrigado.", final: "Oooh, obrigado meu amor! Eu te amo tanto! ❤️", suite: "Próximo" },
-    nl: { start: "Hoi, ik wilde je een vraag stellen...", text2: "Ik weet niet hoe ik het moet zeggen, maar...", msg: "...Ik... Ik... Ik hou van je... Nee... Ik hou niet van je... Ik aanbid je! Je bent de mooiste persoon die ik ooit heb ontmoet!", question: "Hou je van me en wil je met me uitgaan?", yes: "Jaaa ❤️", no: "Nee bedankt.", final: "Oooh, bedankt lieverd! Ik hou zoveel van je! ❤️", suite: "Volgende" },
+    pt: { start: "Olá, eu tenho uma pergunta para você...", text2: "Eu não sei como te dizer isso, mas...", msg: "...Eu... Eu... Eu te amo... No... Eu não te amo... Eu te adoro! Você é a persona mais linda que eu já conheci!", question: "Você me ama e quer namorar comigo?", yes: "Simmm ❤️", no: "Não, obrigado.", final: "Oooh, obrigado meu amor! Eu te amo tanto! ❤️", suite: "Próximo" },
+    nl: { start: "Hoi, ik wilde je een vraag stellen...", text2: "Ik weet niet hoe ik het moet zeggen, mais...", msg: "...Ik... Ik... Ik hou van je... Nee... Ik hou niet van je... Ik aanbid je! Je bent de mooiste persoon die ik ooit heb ontmoet!", question: "Hou je van me en wil je met me uitgaan?", yes: "Jaaa ❤️", no: "Nee bedankt.", final: "Oooh, bedankt lieverd! Ich hou zoveel van je! ❤️", suite: "Volgende" },
     jp: { start: "ねえ、ちょっと聞きたいことがあるんだけど…", text2: "どう言えばいいかわからないんだけど、実は…", msg: "…好き…ううん、大好き！…いや、愛してる！君は僕が出会った中で一番素敵な人だよ！", question: "僕のこと好き？付き合ってくれる？", yes: "はい ❤️", no: "ごめんなさい", final: "わあ、ありがとう！本当に愛してるよ！ ❤️", suite: "次へ" }
 };
 
 let currentLang = 'fr';
 let currentMessage = translations.fr.msg;
 let scale = 1;
-const DISTANCE_BOUTON_ROUGE = 25;
+let clickCount = 0;
 
 const btnSuite = document.getElementById("btnSuite");
 const btnSuite2 = document.getElementById("btnSuite2");
@@ -151,11 +184,12 @@ const typed = document.getElementById("typed");
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const questionGroup = document.getElementById("questionGroup");
-const finalCat = document.getElementById("finalCat");
 
-const keySound1 = new Audio("audio/key.mp3");
-const keySound2 = new Audio("audio/key.mp3");
-let useFirst = true;
+function playSound(file, vol = 0.8) {
+    const sound = new Audio("audio/" + file);
+    sound.volume = vol;
+    sound.play().catch(() => {});
+}
 
 function changeLang(lang) {
     currentLang = lang;
@@ -169,37 +203,36 @@ function changeLang(lang) {
     btnSuite.innerText = t.suite;
     btnSuite2.innerText = t.suite;
     currentMessage = t.msg;
-    trackClick('ChangeLang_' + lang);
-}
-
-function playSound(file, loop = false, callback = null, vol = 1.0) {
-    const sound = new Audio("audio/" + file);
-    sound.loop = loop; sound.volume = vol;
-    if (callback) sound.onended = callback;
-    sound.play().catch(() => {});
-    return sound;
 }
 
 function updatePositions() {
-    const yesWidth = yesBtn.offsetWidth * scale;
-    const yesHeight = yesBtn.offsetHeight * scale;
-    const offsetRed = (yesWidth / 2) + DISTANCE_BOUTON_ROUGE + (noBtn.offsetWidth / 2);
-    noBtn.style.transform = `translateX(${offsetRed}px)`;
-    questionGroup.style.transform = `translateY(-${80 + (yesHeight/2)}px)`;
+    const startOffsetH = -75;
+    const currentGreenH = Math.min(0, startOffsetH + (clickCount * 9.5)); 
+
+    const marginButtons = 50;
+    const currentRedH = currentGreenH + (yesBtn.offsetWidth * scale / 2) + marginButtons + (noBtn.offsetWidth / 2);
+
+    yesBtn.style.transform = `translateX(${currentGreenH}px) scale(${scale})`;
+    noBtn.style.transform = `translateX(${currentRedH}px)`;
+
+    // --- CALCUL DE L'ESPACE PLUS GRAND ---
+    const bigMargin = 85; // Augmenté pour laisser plus de place
+    const greenHalfHeight = (yesBtn.offsetHeight * scale) / 2;
+    const totalMoveUp = greenHalfHeight + bigMargin; 
+    
+    questionGroup.style.transform = `translateY(-${totalMoveUp}px)`;
 }
 
 btnSuite.onclick = () => {
-    trackClick('Suite 1'); playSound("Mouse-Click.mp3");
+    playSound("Mouse-Click.mp3");
     document.getElementById("startText").style.display = "none";
     btnSuite.style.display = "none";
     document.getElementById("text2").style.display = "block";
     btnSuite2.style.display = "block";
-    btnSuite2.style.opacity = 0;
-    fadeIn(btnSuite2, 1000);
 };
 
 btnSuite2.onclick = () => {
-    trackClick('Suite 2'); playSound("Mouse-Click.mp3");
+    playSound("Mouse-Click.mp3");
     document.getElementById("text2").style.display = "none";
     btnSuite2.style.display = "none";
     suiteWrap.style.display = "none";
@@ -207,25 +240,15 @@ btnSuite2.onclick = () => {
     typeWriter(currentMessage);
 };
 
-function fadeIn(element, duration) {
-    let opacity = 0;
-    const interval = 50;
-    const timer = setInterval(() => {
-        opacity += (interval / duration);
-        element.style.opacity = opacity;
-        if (opacity >= 1) clearInterval(timer);
-    }, interval);
-}
-
 function typeWriter(text) {
     let i = 0; typed.innerHTML = "";
     function write() {
         if (i < text.length) {
             typed.innerHTML += text[i];
-            let sound = useFirst ? keySound1 : keySound2;
-            sound.currentTime = 0; sound.play().catch(() => {});
-            useFirst = !useFirst;
-            let speed = (text[i] === "." || text[i] === "!" || text[i] === "？") ? 250 : 85;
+            const key = new Audio("audio/key.mp3");
+            key.volume = 0.9;
+            key.play().catch(() => {});
+            let speed = (text[i] === "." || text[i] === "!" || text[i] === "?") ? 200 : 60;
             i++; setTimeout(write, speed);
         } else {
             document.getElementById("cursor").style.display = "none";
@@ -239,10 +262,10 @@ function createFinalSuiteButton() {
     suiteWrap.style.display = "flex";
     const btn = document.createElement("button");
     btn.innerText = translations[currentLang].suite;
-    btn.className = "btn"; btn.style.position = "absolute";
+    btn.className = "btn";
     suiteWrap.appendChild(btn);
     btn.onclick = () => {
-        trackClick('Suite Finale'); playSound("Mouse-Click.mp3");
+        playSound("Mouse-Click.mp3");
         suiteWrap.style.display = "none";
         document.getElementById("typingText").style.display = "none";
         document.getElementById("questionBox").style.display = "flex";
@@ -251,18 +274,24 @@ function createFinalSuiteButton() {
 }
 
 noBtn.onclick = () => {
-    trackClick('Bouton NON'); playSound("mauvaise-reponse.mp3");
-    scale *= 1.2; yesBtn.style.transform = `scale(${scale})`;
-    updatePositions();
+    playSound("mauvaise-reponse.mp3", 0.5);
+    clickCount++; 
+    scale *= 1.45; 
+    updatePositions(); 
 };
 
 yesBtn.onclick = () => {
-    trackClick('Bouton OUI'); playSound("bonne-reponse.mp3");
+    playSound("bonne-reponse.mp3");
     setTimeout(() => {
-        playSound("kisses.mp3", false, null, 1.0);
+        const kiss = new Audio("audio/kisses.mp3");
+        kiss.volume = 1.0;
+        kiss.play();
         setTimeout(() => {
-            playSound("Happy-Cat-Music.mp3", true, null, 1.0);
-            finalCat.style.display = "block";
+            const happy = new Audio("audio/Happy-Cat-Music.mp3");
+            happy.loop = true;
+            happy.volume = 0.8;
+            happy.play();
+            document.getElementById("finalCat").style.display = "block";
         }, 1500);
     }, 1000);
     document.getElementById("questionBox").style.display = "none";
