@@ -10,7 +10,6 @@
 
   gtag('config', 'G-TC45YCDBFX');
 
-  // Fonction pour envoyer les clics à Google Analytics
   function trackClick(buttonName) {
     gtag('event', 'click_bouton', {
       'nom_bouton': buttonName
@@ -235,9 +234,13 @@ const noBtn = document.getElementById("noBtn");
 const questionGroup = document.getElementById("questionGroup");
 const finalCat = document.getElementById("finalCat");
 
-// Pré-chargement du son de clavier pour éviter les lenteurs sur iPad
-const keySound = new Audio("audio/key.mp3");
-keySound.preload = "auto";
+// --- OPTIMISATION SON ---
+// On utilise deux objets audio pour alterner et éviter les sons qui se chevauchent
+const keySound1 = new Audio("audio/key.mp3");
+const keySound2 = new Audio("audio/key.mp3");
+keySound1.preload = "auto";
+keySound2.preload = "auto";
+let useFirst = true;
 
 const message = "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontrée !";
 
@@ -295,11 +298,14 @@ function typeWriter(text) {
         if (i < text.length) {
             typed.innerHTML += text[i];
             
-            // Rejoue le même son pré-chargé (plus rapide sur iPad)
-            keySound.currentTime = 0;
-            keySound.play().catch(() => {});
+            // Alternance des sons pour un rendu net sans écho
+            let sound = useFirst ? keySound1 : keySound2;
+            sound.currentTime = 0;
+            sound.play().catch(() => {});
+            useFirst = !useFirst;
 
-            let speed = (text[i] === "." || text[i] === "!") ? 200 : 70;
+            // Vitesse adaptée pour laisser le son respirer
+            let speed = (text[i] === "." || text[i] === "!") ? 250 : 85;
             i++;
             setTimeout(write, speed);
         } else {
