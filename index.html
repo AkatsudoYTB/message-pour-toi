@@ -23,124 +23,104 @@
         overflow: hidden; touch-action: manipulation;
     }
 
-    /* --- BARRE DE SOUTIEN AVEC EFFET NÉON --- */
+    /* --- BARRE DE SOUTIEN (DROITE) --- */
     .support-bar {
         position: fixed; top: 15px; right: 15px;
         z-index: 2000;
         background: rgba(255, 255, 255, 0.08); 
-        height: 50px; padding: 0 20px;
+        height: 50px; padding: 0 15px;
         border-radius: 30px; backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex; align-items: center; gap: 15px;
+        display: flex; align-items: center; gap: 10px;
     }
     .support-text {
-        color: white;
-        font-size: 14px;
-        font-weight: bold;
-        white-space: nowrap;
-        /* Effet Néon Blanc */
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
+        color: white; font-size: 13px; font-weight: bold; white-space: nowrap;
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff;
     }
-    .support-icons { display: flex; align-items: center; gap: 12px; }
-    .support-icons img { height: 24px; width: auto; display: block; transition: transform 0.2s; }
-    .support-icons img:hover { transform: scale(1.1); }
+    .support-icons { display: flex; align-items: center; gap: 10px; }
+    .support-icons img { height: 22px; width: auto; }
 
-    .lang-picker {
-        position: fixed; top: 15px; left: 15px;
-        z-index: 2001; display: flex; gap: 8px; flex-wrap: wrap; max-width: 160px;
+    /* --- SÉLECTEUR DE LANGUE (GAUCHE) --- */
+    .lang-trigger {
+        position: fixed; top: 15px; left: 15px; z-index: 2000;
+        background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 5px; border-radius: 12px; cursor: pointer; backdrop-filter: blur(8px);
     }
-    .lang-picker img { width: 30px; height: auto; cursor: pointer; border-radius: 4px; }
+    .lang-trigger img { width: 35px; height: auto; border-radius: 4px; display: block; }
 
+    /* LE VOLET (MODAL) */
+    #langModal {
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center;
+    }
+    .modal-content {
+        background: #1a1a1a; padding: 25px; border-radius: 25px; border: 1px solid #333;
+        width: 85%; max-width: 320px; text-align: center;
+    }
+    .lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+    .lang-item { position: relative; cursor: pointer; display: flex; justify-content: center; }
+    .lang-item img { width: 45px; border-radius: 6px; transition: 0.2s; }
+    .check-mark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px !important; display: none; z-index: 10; pointer-events: none; }
+
+    .modal-actions { display: flex; gap: 10px; margin-top: 25px; }
+    .btn-valider { background: #27ae60 !important; flex: 1; }
+    .btn-fermer { background: #c0392b !important; flex: 1; }
+
+    /* --- CONTENU --- */
     .screen { text-align: center; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    
-    .blue-text { 
-        color: #7ec8ff; 
-        text-shadow: 0 0 6px #fff; 
-        font-size: 22px; 
-        font-weight: bold; 
-    }
-    
-    #typingText { 
-        width: 80%; 
-        max-width: 500px; 
-        line-height: 1.4; 
-        display: none; 
-        margin: 0 auto;
-    }
-    
+    .blue-text { color: #7ec8ff; text-shadow: 0 0 6px #fff; font-size: 22px; font-weight: bold; }
+    #typingText { width: 80%; max-width: 500px; line-height: 1.4; display: none; margin: 0 auto; }
     .btn { padding: 12px 24px; border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: bold; color: white; background: #3498db; }
-    
     .suite-container { height: 50px; margin-top: 20px; display: flex; justify-content: center; width: 100%; position: relative; }
-    #btnSuite, #btnSuite2 { position: absolute; }
     #text2, #btnSuite2, #questionBox, #finalBox { display: none; }
     #cursor { animation: blink 1s infinite; }
     @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 
-    /* --- ZONE DE QUESTION --- */
-    #questionBox { 
-        width: 100%; height: 100%; 
-        display: none; flex-direction: column; 
-        align-items: center; justify-content: center;
-        position: relative;
-    }
-    
-    #questionGroup { 
-        display: flex; flex-direction: row; align-items: center; justify-content: center; 
-        gap: 15px; z-index: 100;
-        transition: transform 0.4s ease-out;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-140px);
-    }
-    
+    #questionBox { width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+    #questionGroup { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 15px; z-index: 100; transition: transform 0.4s ease-out; position: absolute; top: 50%; transform: translateY(-140px); }
     #catImg { width: 80px; height: auto; }
-
-    #buttonArea {
-        display: flex; justify-content: center; align-items: center;
-        width: 100%; position: absolute; top: 50%;
-    }
-
-    #yesBtn { 
-        background: #2ecc71; z-index: 10; 
-        transition: transform 0.4s ease-out; 
-        transform-origin: center; position: absolute;
-    }
-    #noBtn { 
-        background: #e74c3c; position: absolute; 
-        transition: transform 0.4s ease-out; z-index: 50;
-    }
-    
+    #buttonArea { display: flex; justify-content: center; align-items: center; width: 100%; position: absolute; top: 50%; }
+    #yesBtn { background: #2ecc71; z-index: 10; transition: transform 0.4s ease-out; transform-origin: center; position: absolute; }
+    #noBtn { background: #e74c3c; position: absolute; transition: transform 0.4s ease-out; z-index: 50; }
     #finalBox { flex-direction: column; align-items: center; width: 100%; }
     #finalBox img { margin-top: 15px; width: 220px; display: none; }
     .red-text { color: #ff4b4b; text-shadow: 0 0 6px #fff; font-size: 22px; font-weight: bold; }
 
-    @media (min-width: 768px) {
-        .blue-text, .red-text { font-size: 28px; }
-        #typingText { max-width: 600px; }
-        #catImg { width: 100px; }
-        .support-text { font-size: 16px; }
-    }
+    @media (max-width: 600px) { .support-text { display: none; } }
 </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-<div class="lang-picker">
-    <img src="images/France.png" onclick="changeLang('fr')">
-    <img src="images/Royaume-Uni.png" onclick="changeLang('en')">
-    <img src="images/Espagne.png" onclick="changeLang('es')">
-    <img src="images/Allemagne.png" onclick="changeLang('de')">
-    <img src="images/Italie.png" onclick="changeLang('it')">
-    <img src="images/Portugal.png" onclick="changeLang('pt')">
-    <img src="images/Pays-Bas.png" onclick="changeLang('nl')">
-    <img src="images/Japon.png" onclick="changeLang('jp')">
+<div class="lang-trigger" onclick="openModal()">
+    <img id="currentLangFlag" src="images/France.png">
+</div>
+
+<div id="langModal">
+    <div class="modal-content">
+        <h3 style="color: white; margin-top: 0;">Choisir une langue</h3>
+        <div class="lang-grid">
+            <div class="lang-item" onclick="preSelectLang('fr')"><img src="images/France.png"><img src="images/Valide.png" class="check-mark" id="check-fr"></div>
+            <div class="lang-item" onclick="preSelectLang('en')"><img src="images/Royaume-Uni.png"><img src="images/Valide.png" class="check-mark" id="check-en"></div>
+            <div class="lang-item" onclick="preSelectLang('es')"><img src="images/Espagne.png"><img src="images/Valide.png" class="check-mark" id="check-es"></div>
+            <div class="lang-item" onclick="preSelectLang('de')"><img src="images/Allemagne.png"><img src="images/Valide.png" class="check-mark" id="check-de"></div>
+            <div class="lang-item" onclick="preSelectLang('it')"><img src="images/Italie.png"><img src="images/Valide.png" class="check-mark" id="check-it"></div>
+            <div class="lang-item" onclick="preSelectLang('pt')"><img src="images/Portugal.png"><img src="images/Valide.png" class="check-mark" id="check-pt"></div>
+            <div class="lang-item" onclick="preSelectLang('nl')"><img src="images/Pays-Bas.png"><img src="images/Valide.png" class="check-mark" id="check-nl"></div>
+            <div class="lang-item" onclick="preSelectLang('jp')"><img src="images/Japon.png"><img src="images/Valide.png" class="check-mark" id="check-jp"></div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-fermer" onclick="closeModal()">Fermer</button>
+            <button class="btn btn-valider" onclick="applyLang()">Valider</button>
+        </div>
+    </div>
 </div>
 
 <div class="support-bar">
     <div class="support-text">Me soutenir</div>
     <div class="support-icons">
-        <a href="https://youtube.com/@Akatsudo" target="_blank"><img src="images/YouTube-Logo.png" alt="YouTube"></a>
-        <a href="https://tiktok.com/@akatsudo" target="_blank"><img src="images/TikTok-Logo.png" alt="TikTok"></a>
-        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank"><img src="images/Twitch-Logo.png" alt="Twitch"></a>
+        <a href="https://youtube.com/@Akatsudo" target="_blank"><img src="images/YouTube-Logo.png"></a>
+        <a href="https://tiktok.com/@akatsudo" target="_blank"><img src="images/TikTok-Logo.png"></a>
+        <a href="https://twitch.tv/akatsudosurtwitch" target="_blank"><img src="images/Twitch-Logo.png"></a>
     </div>
 </div>
 
@@ -151,7 +131,7 @@
     
     <div class="suite-container" id="suiteWrap">
         <button id="btnSuite" class="btn">Suite</button>
-        <button id="btnSuite2" class="btn">Suite</button>
+        <button id="btnSuite2" class="btn" style="display:none">Suite</button>
     </div>
 
     <div id="questionBox">
@@ -173,38 +153,43 @@
 
 <script>
 const translations = {
-    fr: { start: "Salut, j'avais une question à te poser...", text2: "Je sais pas comment te le dire, mais...", msg: "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontrée !", question: "Est ce que tu m'aimes et est ce que tu veux sortir avec moi ?", yes: "Ouiii ❤️", no: "Non merci.", final: "Oooh, merci mon cœur ! Je t'aime tellement ! ❤️", suite: "Suite", support: "Me soutenir" },
-    en: { start: "Hi, I had a question to ask you...", text2: "I don't know how to tell you, but...", msg: "...I... I... I love you... No... I don't love you... I adore you! You are the most beautiful person I've ever met!", question: "Do you love me and do you want to go out with me?", yes: "Yesss ❤️", no: "No thanks.", final: "Oooh, thank you sweetheart! I love you so much! ❤️", suite: "Next", support: "Support me" },
-    es: { start: "Hola, tenía una pregunta para ti...", text2: "No sé cómo decírtelo, pero...", msg: "...Yo... Yo... Te quiero... No... ¡No te quiero... Te adoro! ¡Eres la persona más bella que he conocido!", question: "¿Me amas y quieres salir conmigo?", yes: "Siii ❤️", no: "No, gracias.", final: "¡Oooh, gracias mi amor! ¡Te quiero mucho! ❤️", suite: "Siguiente", support: "Apóyame" },
-    de: { start: "Hallo, ich wollte dir eine Frage stellen...", text2: "Ich weiß nicht, wie ich es sagen soll, aber...", msg: "...Ich... Ich... Ich liebe dich... Nein... Ich liebe dich nicht... Ich bete dich an! Du bist der schönste Mensch, den ich je getroffen habe!", question: "Liebst du mich und willst du mit mir gehen?", yes: "Jaaa ❤️", no: "Nein danke.", final: "Oooh, danke mein Schatz! Ich liebe dich so sehr! ❤️", suite: "Weiter", support: "Unterstütze mich" },
-    it: { start: "Ciao, volevo farti una domanda...", text2: "Non so come dirtelo, ma...", msg: "...Io... Io... Ti amo... No... Non ti amo... Ti adoro! Sei la persona più bella che abbia mai incontrato!", question: "Mi ami e vuoi uscire con me?", yes: "Siii ❤️", no: "No, grazie.", final: "Oooh, grazie tesoro mio! Ti amo tanto! ❤️", suite: "Avanti", support: "Sostienimi" },
-    pt: { start: "Olá, eu tenho uma pergunta para você...", text2: "Eu não sei como te dizer isso, mais...", msg: "...Eu... Eu... Eu te amo... No... Eu não te amo... Eu te adoro! Você é a pessoa mais linda que eu já conheci!", question: "Você me ama e quer namorar comigo?", yes: "Simmm ❤️", no: "Não, obrigado.", final: "Oooh, obrigado meu amor! Eu te amo tanto! ❤️", suite: "Próximo", support: "Apoie-me" },
-    nl: { start: "Hoi, ik wilde je een question stellen...", text2: "Ik weet niet hoe ik het moet zeggen, mais...", msg: "...Ik... Ik... Ik hou van je... Nee... Ik hou niet van je... Ik aanbid je! Je bent de mooiste persoon die ik ooit heb ontmoet!", question: "Hou je van me en wil je met me uitgaan?", yes: "Jaaa ❤️", no: "Nee bedankt.", final: "Oooh, bedankt lieverd! Ich hou zoveel van je! ❤️", suite: "Volgende", support: "Steun mij" },
-    jp: { start: "ねえ、ちょっと聞きたいことがあるんだけど…", text2: "どう言えばいいかわからないんだけど、実は…", msg: "…好き…ううん、大好き！…いや、愛してる！君は僕が出会った中で一番素敵な人だよ！", question: "僕のこと好き？付き合ってくれる？", yes: "はい ❤️", no: "ごめんなさい", final: "わあ、ありがとう！本当に愛してるよ！ ❤️", suite: "次へ", support: "応援する" }
+    fr: { flag: "France.png", start: "Salut, j'avais une question à te poser...", text2: "Je sais pas comment te le dire, mais...", msg: "...Je... Je... Je t'aime... Non... Je t'aime pas... Je t'adore ! Tu es la plus belle personne que j'ai rencontrée !", question: "Est ce que tu m'aimes et est ce que tu veux sortir avec moi ?", yes: "Ouiii ❤️", no: "Non merci.", final: "Oooh, merci mon cœur ! Je t'aime tellement ! ❤️", suite: "Suite", support: "Me soutenir" },
+    en: { flag: "Royaume-Uni.png", start: "Hi, I had a question to ask you...", text2: "I don't know how to tell you, but...", msg: "...I... I... I love you... No... I don't love you... I adore you! You are the most beautiful person I've ever met!", question: "Do you love me and do you want to go out with me?", yes: "Yesss ❤️", no: "No thanks.", final: "Oooh, thank you sweetheart! I love you so much! ❤️", suite: "Next", support: "Support me" },
+    es: { flag: "Espagne.png", start: "Hola, tenía una pregunta para ti...", text2: "No sé cómo decírtelo, pero...", msg: "...Yo... Yo... Te quiero... No... ¡No te quiero... Te adoro! ¡Eres la persona más bella que he conocido!", question: "¿Me amas y quieres salir conmigo?", yes: "Siii ❤️", no: "No, gracias.", final: "¡Oooh, gracias mi amor! ¡Te quiero mucho! ❤️", suite: "Siguiente", support: "Apóyame" },
+    de: { flag: "Allemagne.png", start: "Hallo, ich wollte dir eine Frage stellen...", text2: "Ich weiß nicht, wie ich es sagen soll, aber...", msg: "...Ich... Ich... Ich liebe dich... Nein... Ich liebe dich nicht... Ich bete dich an! Du bist der schönste Mensch, den ich je getroffen habe!", question: "Liebst du mich und willst du mit mir gehen?", yes: "Jaaa ❤️", no: "Nein danke.", final: "Oooh, danke mein Schatz! Ich liebe dich so sehr! ❤️", suite: "Weiter", support: "Unterstütze mich" },
+    it: { flag: "Italie.png", start: "Ciao, volevo farti una domanda...", text2: "Non so come dirtelo, ma...", msg: "...Io... Io... Ti amo... No... Non ti amo... Ti adoro! Sei la persona più bella che abbia mai incontrato!", question: "Mi ami e vuoi uscire con me?", yes: "Siii ❤️", no: "No, grazie.", final: "Oooh, grazie tesoro mio! Ti amo tanto! ❤️", suite: "Avanti", support: "Sostienimi" },
+    pt: { flag: "Portugal.png", start: "Olá, eu tenho uma pergunta para você...", text2: "Eu não sei como te dizer isso, mais...", msg: "...Eu... Eu... Eu te amo... No... Eu não te amo... Eu te adoro! Você é a pessoa mais linda que eu já conheci!", question: "Você me ama e quer namorar comigo?", yes: "Simmm ❤️", no: "Não, obrigado.", final: "Oooh, obrigado meu amor! Eu te amo tanto! ❤️", suite: "Próximo", support: "Apoie-me" },
+    nl: { flag: "Pays-Bas.png", start: "Hoi, ik wilde je een question stellen...", text2: "Ik weet niet hoe ik het moet zeggen, mais...", msg: "...Ik... Ik... Ik hou van je... Nee... Ik hou niet van je... Ik aanbid je! Je bent de mooiste persoon die ik ooit heb ontmoet!", question: "Hou je van me en wil je met me uitgaan?", yes: "Jaaa ❤️", no: "Nee bedankt.", final: "Oooh, bedankt lieverd! Ich hou zoveel van je! ❤️", suite: "Volgende", support: "Steun mij" },
+    jp: { flag: "Japon.png", start: "ねえ、ちょっと聞きたいことがあるんだけど…", text2: "どう言えばいいかわからないんだけど、実は…", msg: "…好き…ううん、大好き！…いや、愛してる！君は僕が出会った中で一番素敵な人だよ！", question: "僕のこと好き？付き合ってくれる？", yes: "はい ❤️", no: "ごめんなさい", final: "わあ、ありがとう！本当に愛してるよ！ ❤️", suite: "次へ", support: "応援する" }
 };
 
-let currentLang = 'fr';
-let currentMessage = translations.fr.msg;
-let scale = 1;
-let clickCount = 0;
+let currentLang = 'fr', tempLang = 'fr', currentMessage = translations.fr.msg, scale = 1, clickCount = 0;
 
-const btnSuite = document.getElementById("btnSuite");
-const btnSuite2 = document.getElementById("btnSuite2");
-const suiteWrap = document.getElementById("suiteWrap");
-const typed = document.getElementById("typed");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const questionGroup = document.getElementById("questionGroup");
-
-function playSound(file, vol = 0.8) {
-    const sound = new Audio("audio/" + file);
-    sound.volume = vol;
-    sound.play().catch(() => {});
+function openModal() {
+    tempLang = currentLang; // On repart de la langue actuelle
+    document.getElementById('langModal').style.display = 'flex';
+    updateCheckMarks(tempLang);
 }
 
-function changeLang(lang) {
-    currentLang = lang;
-    const t = translations[lang];
+function closeModal() {
+    document.getElementById('langModal').style.display = 'none';
+}
+
+function preSelectLang(lang) {
+    tempLang = lang; // On change juste la sélection visuelle
+    updateCheckMarks(lang);
+}
+
+function updateCheckMarks(lang) {
+    const checks = document.querySelectorAll('.check-mark');
+    checks.forEach(c => c.style.display = 'none');
+    document.getElementById('check-' + lang).style.display = 'block';
+}
+
+function applyLang() {
+    currentLang = tempLang;
+    const t = translations[currentLang];
+    document.getElementById('currentLangFlag').src = 'images/' + t.flag;
     document.getElementById("startText").innerText = t.start;
     document.getElementById("text2").innerText = t.text2;
     document.getElementById("questionText").innerText = t.question;
@@ -212,100 +197,82 @@ function changeLang(lang) {
     document.getElementById("noBtn").innerText = t.no;
     document.querySelector(".red-text").innerText = t.final;
     document.querySelector(".support-text").innerText = t.support;
-    btnSuite.innerText = t.suite;
-    btnSuite2.innerText = t.suite;
+    document.getElementById("btnSuite").innerText = t.suite;
+    document.getElementById("btnSuite2").innerText = t.suite;
     currentMessage = t.msg;
+    closeModal();
 }
 
 function updatePositions() {
     const startOffsetH = -75;
     const currentGreenH = Math.min(0, startOffsetH + (clickCount * 9.5)); 
     const marginButtons = 50;
-    const currentRedH = currentGreenH + (yesBtn.offsetWidth * scale / 2) + marginButtons + (noBtn.offsetWidth / 2);
-
-    yesBtn.style.transform = `translateX(${currentGreenH}px) scale(${scale})`;
-    noBtn.style.transform = `translateX(${currentRedH}px)`;
-
-    const bigMargin = 140; 
-    const greenHalfHeight = (yesBtn.offsetHeight * scale) / 2;
-    const totalMoveUp = greenHalfHeight + bigMargin; 
-    
-    questionGroup.style.transform = `translateY(-${totalMoveUp}px)`;
+    const currentRedH = currentGreenH + (document.getElementById("yesBtn").offsetWidth * scale / 2) + marginButtons + (document.getElementById("noBtn").offsetWidth / 2);
+    document.getElementById("yesBtn").style.transform = `translateX(${currentGreenH}px) scale(${scale})`;
+    document.getElementById("noBtn").style.transform = `translateX(${currentRedH}px)`;
+    const totalMoveUp = (document.getElementById("yesBtn").offsetHeight * scale) / 2 + 140; 
+    document.getElementById("questionGroup").style.transform = `translateY(-${totalMoveUp}px)`;
 }
 
-btnSuite.onclick = () => {
-    playSound("Mouse-Click.mp3");
+document.getElementById("btnSuite").onclick = () => {
+    new Audio("audio/Mouse-Click.mp3").play().catch(()=>{});
     document.getElementById("startText").style.display = "none";
-    btnSuite.style.display = "none";
+    document.getElementById("btnSuite").style.display = "none";
     document.getElementById("text2").style.display = "block";
-    btnSuite2.style.display = "block";
+    document.getElementById("btnSuite2").style.display = "block";
 };
 
-btnSuite2.onclick = () => {
-    playSound("Mouse-Click.mp3");
+document.getElementById("btnSuite2").onclick = () => {
+    new Audio("audio/Mouse-Click.mp3").play().catch(()=>{});
     document.getElementById("text2").style.display = "none";
-    btnSuite2.style.display = "none";
-    suiteWrap.style.display = "none";
+    document.getElementById("btnSuite2").style.display = "none";
+    document.getElementById("suiteWrap").style.display = "none";
     document.getElementById("typingText").style.display = "block";
     typeWriter(currentMessage);
 };
 
 function typeWriter(text) {
-    let i = 0; typed.innerHTML = "";
+    let i = 0; document.getElementById("typed").innerHTML = "";
     function write() {
         if (i < text.length) {
-            typed.innerHTML += text[i];
-            const key = new Audio("audio/key.mp3");
-            key.volume = 0.9;
-            key.play().catch(() => {});
+            document.getElementById("typed").innerHTML += text[i];
+            const key = new Audio("audio/key.mp3"); key.volume = 0.9; key.play().catch(()=>{});
             let speed = (text[i] === "." || text[i] === "!" || text[i] === "?") ? 200 : 60;
             i++; setTimeout(write, speed);
         } else {
             document.getElementById("cursor").style.display = "none";
-            createFinalSuiteButton();
+            document.getElementById("suiteWrap").style.display = "flex";
+            const btn = document.createElement("button");
+            btn.innerText = translations[currentLang].suite; btn.className = "btn";
+            document.getElementById("suiteWrap").innerHTML = ""; document.getElementById("suiteWrap").appendChild(btn);
+            btn.onclick = () => {
+                new Audio("audio/Mouse-Click.mp3").play().catch(()=>{});
+                document.getElementById("typingText").style.display = "none";
+                document.getElementById("suiteWrap").style.display = "none";
+                document.getElementById("questionBox").style.display = "flex";
+                updatePositions();
+            };
         }
     }
     write();
 }
 
-function createFinalSuiteButton() {
-    suiteWrap.style.display = "flex";
-    const btn = document.createElement("button");
-    btn.innerText = translations[currentLang].suite;
-    btn.className = "btn";
-    suiteWrap.appendChild(btn);
-    btn.onclick = () => {
-        playSound("Mouse-Click.mp3");
-        suiteWrap.style.display = "none";
-        document.getElementById("typingText").style.display = "none";
-        document.getElementById("questionBox").style.display = "flex";
-        updatePositions();
-    };
-}
-
-noBtn.onclick = () => {
-    playSound("mauvaise-reponse.mp3", 0.5);
-    clickCount++; 
-    scale *= 1.45; 
-    updatePositions(); 
+document.getElementById("noBtn").onclick = () => {
+    new Audio("audio/mauvaise-reponse.mp3").play().catch(()=>{});
+    clickCount++; scale *= 1.45; updatePositions(); 
 };
 
-yesBtn.onclick = () => {
-    playSound("bonne-reponse.mp3");
+document.getElementById("yesBtn").onclick = () => {
+    new Audio("audio/bonne-reponse.mp3").play().catch(()=>{});
+    document.getElementById("questionBox").style.display = "none";
+    document.getElementById("finalBox").style.display = "flex";
     setTimeout(() => {
-        const kiss = new Audio("audio/kisses.mp3");
-        kiss.volume = 1.0;
-        kiss.play();
+        const kiss = new Audio("audio/kisses.mp3"); kiss.play();
         setTimeout(() => {
-            const happy = new Audio("audio/Happy-Cat-Music.mp3");
-            happy.loop = true;
-            happy.volume = 0.8;
-            happy.play();
+            const happy = new Audio("audio/Happy-Cat-Music.mp3"); happy.loop = true; happy.play();
             document.getElementById("finalCat").style.display = "block";
         }, 1500);
     }, 1000);
-    document.getElementById("questionBox").style.display = "none";
-    document.getElementById("finalBox").style.display = "flex";
 };
 </script>
 </body>
