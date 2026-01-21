@@ -31,14 +31,32 @@
         height: 50px; padding: 0 15px;
         border-radius: 30px; backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex; align-items: center; gap: 10px;
+        display: flex; align-items: center; gap: 12px;
     }
     .support-text {
         color: white; font-size: 13px; font-weight: bold; white-space: nowrap;
         text-shadow: 0 0 5px #fff, 0 0 10px #fff;
     }
-    .support-icons { display: flex; align-items: center; gap: 10px; }
-    .support-icons img { height: 22px; width: auto; }
+    .support-icons { 
+        display: flex; 
+        align-items: center; /* Centre verticalement les logos */
+        gap: 12px; 
+    }
+    .support-icons a { 
+        display: flex; 
+        align-items: center; 
+        text-decoration: none;
+    }
+    .support-icons img { 
+        height: 24px; 
+        width: auto; 
+        transition: transform 0.3s ease; /* Animation de grossissement */
+        display: block;
+    }
+    /* Animation au passage de la souris */
+    .support-icons img:hover { 
+        transform: scale(1.2); 
+    }
 
     /* --- SÉLECTEUR DE LANGUE (GAUCHE) --- */
     .lang-trigger {
@@ -59,7 +77,7 @@
     }
     .lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
     .lang-item { position: relative; cursor: pointer; display: flex; justify-content: center; }
-    .lang-item img { width: 45px; border-radius: 6px; transition: 0.2s; }
+    .lang-item img { width: 45px; border-radius: 6px; }
     .check-mark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px !important; display: none; z-index: 10; pointer-events: none; }
 
     .modal-actions { display: flex; gap: 10px; margin-top: 25px; }
@@ -166,7 +184,7 @@ const translations = {
 let currentLang = 'fr', tempLang = 'fr', currentMessage = translations.fr.msg, scale = 1, clickCount = 0;
 
 function openModal() {
-    tempLang = currentLang; // On repart de la langue actuelle
+    tempLang = currentLang;
     document.getElementById('langModal').style.display = 'flex';
     updateCheckMarks(tempLang);
 }
@@ -176,7 +194,7 @@ function closeModal() {
 }
 
 function preSelectLang(lang) {
-    tempLang = lang; // On change juste la sélection visuelle
+    tempLang = lang;
     updateCheckMarks(lang);
 }
 
